@@ -6,7 +6,7 @@ import {
   DECREASE_QUANTITY,
   SET_PRODUCTS,
 } from "./actions";
-import { Product, StoreState } from "../types/types";
+import { Product, StoreState } from "../types";
 
 const initialState: StoreState = {
   cart: [],

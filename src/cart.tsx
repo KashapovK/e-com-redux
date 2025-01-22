@@ -5,7 +5,7 @@ import {
   increaseQuantity,
   decreaseQuantity,
 } from "./redux/actions";
-import { StoreState } from "./types/types";
+import { StoreState } from "./types";
 import "./css/cart.css";
 
 const Cart: React.FC = () => {

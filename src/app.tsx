@@ -4,7 +4,7 @@ import { setProducts } from "./redux/actions";
 import products from "./mocks/products";
 import Product from "./product";
 import Cart from "./cart";
-import { CartItem, StoreState } from "./types/types";
+import { CartItem, StoreState } from "./types";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();

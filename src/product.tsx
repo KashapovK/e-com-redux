@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "./redux/actions";
 import "./css/product.css";
-import { CartItem } from "./types/types";
+import { CartItem } from "./types";
 
 interface ProductProps {
   product: CartItem;
