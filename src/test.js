@@ -11,6 +11,8 @@ import XLSX from "xlsx";
   let totalRenderTime = 0;
   let operationCount = 0;
   const allResults = [];
+  let minMemoryUsage = Infinity;
+  let maxMemoryUsage = 0;
 
   // Функция для замера времени рендеринга и объема памяти
   const measurePerformance = async (actionDescription, action) => {
@@ -33,6 +35,13 @@ import XLSX from "xlsx";
     // Если использование памяти отрицательное, знак меняется на положительный
     if (memoryUsage < 0) {
       memoryUsage = -memoryUsage;
+    }
+
+    if (memoryAfter < minMemoryUsage) {
+      minMemoryUsage = memoryAfter;
+    }
+    if (memoryAfter > maxMemoryUsage) {
+      maxMemoryUsage = memoryAfter;
     }
 
     return { renderTime: endTime - startTime - 500, memoryUsage };
@@ -200,6 +209,8 @@ import XLSX from "xlsx";
         result.memoryUsage,
       ]),
       ["Средние значения", averageRenderTime, averageMemoryUsage],
+      ["Наименьшее использование памяти", minMemoryUsage],
+      ["Наибольшее использование памяти", maxMemoryUsage],
     ];
 
     // Создание рабочей книги и листа
@@ -207,8 +218,8 @@ import XLSX from "xlsx";
     const worksheet = XLSX.utils.aoa_to_sheet(excelData);
 
     XLSX.utils.book_append_sheet(workbook, worksheet, "Results");
-
     XLSX.writeFile(workbook, "performance_results.xlsx");
   }
+
   await browser.close();
 })();
