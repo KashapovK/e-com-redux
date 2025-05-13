@@ -1,28 +1,17 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import './css/cart.css';
 import {
-  removeFromCart,
-  increaseQuantity,
   decreaseQuantity,
-} from "./redux/actions";
-import { StoreState } from "./types";
-import "./css/cart.css";
+  increaseQuantity,
+  removeFromCart,
+} from './redux/cartSlice';
+import { RootState } from './redux/store';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
-  const cart = useSelector((state: StoreState) => state.cart);
-
-  const handleRemoveFromCart = (id: string) => {
-    dispatch(removeFromCart(id));
-  };
-
-  const handleIncreaseQuantity = (id: string) => {
-    dispatch(increaseQuantity(id));
-  };
-
-  const handleDecreaseQuantity = (id: string) => {
-    dispatch(decreaseQuantity(id));
-  };
+  const cart = useSelector((state: RootState) => state.cart.cart);
 
   return (
     <div className="cart-container">
@@ -39,21 +28,21 @@ const Cart: React.FC = () => {
               </div>
               <div className="quantity-controls">
                 <button
-                  onClick={() => handleDecreaseQuantity(item.id)}
+                  onClick={() => dispatch(decreaseQuantity(item.id))}
                   className="quantity-button"
                 >
                   -
                 </button>
                 <span className="item-quantity">{item.quantity}</span>
                 <button
-                  onClick={() => handleIncreaseQuantity(item.id)}
+                  onClick={() => dispatch(increaseQuantity(item.id))}
                   className="quantity-button"
                 >
                   +
                 </button>
               </div>
               <button
-                onClick={() => handleRemoveFromCart(item.id)}
+                onClick={() => dispatch(removeFromCart(item.id))}
                 className="remove-button"
               >
                 Удалить

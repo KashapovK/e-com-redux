@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setProducts } from "./redux/actions";
-import products from "./mocks/products";
-import Product from "./product";
-import Cart from "./cart";
-import { CartItem, StoreState } from "./types";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import products from './mocks/products';
+import Product from './product';
+import Cart from './cart';
+import { CartItem } from './types';
+import { RootState } from './redux/store';
+import { setProducts } from './redux/cartSlice';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const loadedProducts = useSelector((state: StoreState) => state.products);
+  const loadedProducts = useSelector((state: RootState) => state.cart.products);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -21,23 +22,23 @@ const App: React.FC = () => {
 
   const isProduct = (item: unknown): item is CartItem => {
     return (
-      typeof item === "object" &&
+      typeof item === 'object' &&
       item !== null &&
-      "id" in item &&
-      "name" in item &&
-      "price" in item &&
-      typeof (item as CartItem).id === "string" &&
-      typeof (item as CartItem).name === "string" &&
-      typeof (item as CartItem).price === "number"
+      'id' in item &&
+      'name' in item &&
+      'price' in item &&
+      typeof (item as CartItem).id === 'string' &&
+      typeof (item as CartItem).name === 'string' &&
+      typeof (item as CartItem).price === 'number'
     );
   };
 
   const validProducts = loadedProducts.filter(isProduct) as CartItem[];
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: '20px' }}>
       <h1>Интернет-магазин</h1>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {validProducts.map((product) => (
           <Product key={product.id} product={product} />
         ))}
